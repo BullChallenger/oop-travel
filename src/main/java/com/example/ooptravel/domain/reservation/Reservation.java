@@ -27,7 +27,7 @@ import org.springframework.data.annotation.CreatedDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Reservation {
+public class    Reservation {
 
     public enum ReservationStatus {
         ACCEPT, CHECKIN, CHECKOUT
@@ -48,9 +48,6 @@ public class Reservation {
     @JoinColumn(name = "RESERVATION_ID")
     private List<ReservationLineRoom> reservationLineRooms = new ArrayList<>();
 
-    private LocalDateTime checkInDate;
-    private LocalDateTime checkOutDate;
-
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
 
@@ -59,13 +56,11 @@ public class Reservation {
 
     @Builder
     public Reservation(Long userId, Hotel hotel, List<ReservationLineRoom> reservationLineRooms,
-                       LocalDateTime checkInDate, LocalDateTime checkOutDate, ReservationStatus reservationStatus
+                       ReservationStatus reservationStatus
     ) {
         this.userId = userId;
         this.hotel = hotel;
         this.reservationLineRooms = reservationLineRooms;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
         this.reservationStatus = reservationStatus;
     }
 

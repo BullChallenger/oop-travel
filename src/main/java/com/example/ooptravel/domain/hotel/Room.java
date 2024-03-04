@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -31,6 +32,8 @@ public class Room {
     private String name;
     private int standardNumberOfPeople;
     private int maximumNumberOfPeople;
+    private LocalDateTime checkInDate;
+    private LocalDateTime checkOutDate;
 
     @Embedded
     private Bed bed;

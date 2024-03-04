@@ -1,5 +1,6 @@
 package com.example.ooptravel.domain.reservation;
 
+import com.example.ooptravel.domain.hotel.Room;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,24 +27,18 @@ public class ReservationLineRoom {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "RESERVATION_ID")
-    private Reservation reservation;
+    @JoinColumn(name = "ROOM_ID")
+    private Room room;
 
-    @Column(name = "ROOM_NAME")
-    private String name;
-
-    private int period;
+    private long period;
 
     @OneToMany
     @JoinColumn(name = "RESERVATION_LINE_ROOM_ID")
     private List<ReservationOptionGroup> reservationOptionGroups = new ArrayList<>();
 
     @Builder
-    public ReservationLineRoom(Reservation reservation, String name, int period,
-                               List<ReservationOptionGroup> reservationOptionGroups
-    ) {
-        this.reservation = reservation;
-        this.name = name;
+    public ReservationLineRoom(Room room, long period, List<ReservationOptionGroup> reservationOptionGroups) {
+        this.room = room;
         this.period = period;
         this.reservationOptionGroups = reservationOptionGroups;
     }
