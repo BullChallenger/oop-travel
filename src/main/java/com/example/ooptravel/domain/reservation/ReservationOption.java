@@ -3,6 +3,7 @@ package com.example.ooptravel.domain.reservation;
 import com.example.ooptravel.domain.generic.money.Money;
 import com.example.ooptravel.infra.generic.money.MoneyConverter;
 import jakarta.persistence.Convert;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,12 +14,10 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
+@Embeddable
 public class ReservationOption {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String name;
 
     @Convert(converter = MoneyConverter.class)
     private Money price;

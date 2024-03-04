@@ -1,7 +1,10 @@
 package com.example.ooptravel.domain.reservation;
 
 import com.example.ooptravel.domain.generic.money.Money;
+
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,8 +30,8 @@ public class ReservationOptionGroup {
 
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "RESERVATION_OPTION_GROUP_ID")
+    @ElementCollection
+    @CollectionTable(name = "RESERVATION_OPTION", joinColumns = @JoinColumn(name = "RESERVATION_OPTION_GROUP_ID"))
     private List<ReservationOption> reservationOptionSpecs = new ArrayList<>();
 
     @Builder
