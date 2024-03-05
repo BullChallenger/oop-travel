@@ -17,6 +17,7 @@ public class ReservationService {
 
 	public Reservation createReservation(ReservationOrder request) {
 		Reservation reservation = reservationMapper.mapFrom(request);
+		reservation.validate();
 		reservation.accept();
 		return reservationRepository.save(reservation);
 	}

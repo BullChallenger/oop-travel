@@ -4,6 +4,8 @@ import static com.example.ooptravel.domain.reservation.Reservation.ReservationSt
 import static com.example.ooptravel.domain.reservation.Reservation.ReservationStatus.CHECKIN;
 import static com.example.ooptravel.domain.reservation.Reservation.ReservationStatus.CHECKOUT;
 
+import com.example.ooptravel.api.service.reservation.request.ReservationOrder;
+import com.example.ooptravel.api.service.reservation.request.ReservationOrder.ReservationRoomOrder;
 import com.example.ooptravel.domain.hotel.Hotel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -73,9 +75,7 @@ public class Reservation {
             throw new IllegalArgumentException("숙박업소가 운영 중이지 않습니다.");
         }
 
-        for (ReservationLineRoom reservationLineRoom : reservationLineRooms) {
-            reservationLineRoom.validate();
-        }
+
     }
 
     public void accept() {

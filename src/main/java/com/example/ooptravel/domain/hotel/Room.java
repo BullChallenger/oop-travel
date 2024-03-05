@@ -49,4 +49,12 @@ public class Room {
                 .orElseThrow(IllegalStateException::new);
     }
 
+    public void validate() {
+        if (!name.equals(roomName)) {
+
+        }
+
+        if ()
+    }
+
 }

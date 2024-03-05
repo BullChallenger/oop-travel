@@ -1,5 +1,6 @@
 package com.example.ooptravel.api.service.reservation.request;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,22 +24,26 @@ public class ReservationOrder {
 	@Getter
 	public static class ReservationRoomOrder {
 		private final Long roomId;
+		private final LocalDateTime checkInDateTime;
+		private final LocalDateTime checkOutDateTime;
 		private final List<ReservationOrderOptionGroup> optionGroups;
 
-		public ReservationRoomOrder(Long roomId, List<ReservationOrderOptionGroup> optionGroups) {
+		public ReservationRoomOrder(Long roomId, List<ReservationOrderOptionGroup> optionGroups,
+									LocalDateTime checkInDateTime, LocalDateTime checkOutDateTime
+		) {
 			this.roomId = roomId;
 			this.optionGroups = optionGroups;
+			this.checkInDateTime = checkInDateTime;
+			this.checkOutDateTime = checkOutDateTime;
 		}
 	}
 
 	@Getter
 	public static class ReservationOrderOptionGroup {
-		private final Long roomId;
 		private final String name;
 		private final List<ReservationOrderOption> optionSpecs = new ArrayList<>();
 
-		public ReservationOrderOptionGroup(Long roomId, String name) {
-			this.roomId = roomId;
+		public ReservationOrderOptionGroup(String name) {
 			this.name = name;
 		}
 	}

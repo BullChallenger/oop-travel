@@ -40,7 +40,7 @@ public class ReservationMapper {
 
 		return ReservationLineRoom.builder()
 			.room(room)
-			.period(DateTimePeriod.between(room.getCheckInDate(), room.getCheckOutDate()).period())
+			.period(DateTimePeriod.between(room.getCheckInDate().toLocalTime(), room.getCheckOutDate().toLocalTime()))
 			.reservationOptionGroups(roomOrder.getOptionGroups().stream().map(this::ofReservationLineRoomBy).toList())
 			.build();
 	}

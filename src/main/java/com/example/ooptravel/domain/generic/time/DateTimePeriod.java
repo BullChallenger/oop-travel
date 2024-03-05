@@ -1,26 +1,35 @@
 package com.example.ooptravel.domain.generic.time;
 
-import java.time.Duration;
+import jakarta.persistence.Embeddable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Embeddable
 public class DateTimePeriod {
 
-    private LocalDateTime from;
-    private LocalDateTime to;
+    private LocalTime from;
+    private LocalTime to;
 
-    public DateTimePeriod(LocalDateTime from, LocalDateTime to) {
+    public DateTimePeriod(LocalTime from, LocalTime to) {
         this.from = from;
         this.to = to;
     }
 
-    public static DateTimePeriod between(LocalDateTime from, LocalDateTime to) {
+    public static DateTimePeriod between(LocalTime from, LocalTime to) {
         return new DateTimePeriod(from, to);
     }
 
-    public boolean contains(LocalDateTime datetime) {
-        return (datetime.isAfter(from) || datetime.equals(from)) &&
-                (datetime.isBefore(to) || datetime.equals(to));
+    public boolean contains(LocalTime time) {
+        return (time.isAfter(from) || time.equals(from)) &&
+                (time.isBefore(to) || time.equals(to));
+    }
+
+    public boolean isRightScheduleTIme(LocalTime checkInTime, LocalTime checkOutTime) {
+        return checkInTime.equals(from) && checkOutTime.equals(to);
     }
 
     public long period() {

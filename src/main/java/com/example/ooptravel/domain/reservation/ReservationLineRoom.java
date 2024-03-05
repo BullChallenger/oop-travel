@@ -1,7 +1,11 @@
 package com.example.ooptravel.domain.reservation;
 
+import com.example.ooptravel.api.service.reservation.request.ReservationOrder.ReservationOrderOptionGroup;
+import com.example.ooptravel.api.service.reservation.request.ReservationOrder.ReservationRoomOrder;
+import com.example.ooptravel.domain.generic.time.DateTimePeriod;
 import com.example.ooptravel.domain.hotel.Room;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,21 +34,18 @@ public class ReservationLineRoom {
     @JoinColumn(name = "ROOM_ID")
     private Room room;
 
-    private long period;
+    @Embedded
+    private DateTimePeriod period;
 
     @OneToMany
     @JoinColumn(name = "RESERVATION_LINE_ROOM_ID")
     private List<ReservationOptionGroup> reservationOptionGroups = new ArrayList<>();
 
     @Builder
-    public ReservationLineRoom(Room room, long period, List<ReservationOptionGroup> reservationOptionGroups) {
+    public ReservationLineRoom(Room room, DateTimePeriod period, List<ReservationOptionGroup> reservationOptionGroups) {
         this.room = room;
         this.period = period;
         this.reservationOptionGroups = reservationOptionGroups;
-    }
-
-    public void validate() {
-        
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.ooptravel.domain.hotel;
 
 import com.example.ooptravel.domain.generic.money.Money;
+import com.example.ooptravel.domain.reservation.ReservationOption;
 import com.example.ooptravel.infra.generic.money.MoneyConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -34,6 +35,10 @@ public class HotelService {
         this.name = name;
         this.isAvailable = isAvailable;
         this.price = price;
+    }
+
+    public boolean isSatisfiedBy(ReservationOption option) {
+        return isAvailable && name.equals(option.getName()) && price.equals(option.getPrice());
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.ooptravel.domain.hotel;
 
+import com.example.ooptravel.domain.reservation.ReservationOption;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,6 +51,22 @@ public class HotelServiceGroup {
 
     public HotelServiceGroup(String name, boolean exclusive, boolean basic, HotelService... options) {
         this(name, exclusive, basic, Arrays.asList(options));
+    }
+
+    public boolean validate(String groupName, List<ReservationOption> options) {
+        if (!name.equals(groupName)) {
+            return false;
+        }
+
+        if (!isValidateOptionSpecs(options)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isValidateOptionSpecs(List<ReservationOption> options) {
+        return options.isEmpty() || (exclusive && options.size() > 1);
     }
 
 }
