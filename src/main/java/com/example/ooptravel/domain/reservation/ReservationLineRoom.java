@@ -43,4 +43,8 @@ public class ReservationLineRoom {
         this.reservationOptionGroups = reservationOptionGroups;
     }
 
+    public void validate() {
+        
+    }
+
 }

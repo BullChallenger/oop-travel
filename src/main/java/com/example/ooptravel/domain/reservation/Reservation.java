@@ -64,6 +64,20 @@ public class Reservation {
         this.reservationStatus = reservationStatus;
     }
 
+    public void validate() {
+        if (reservationLineRooms.isEmpty()) {
+            throw new IllegalArgumentException("방 예약 항목이 비었습니다.");
+        }
+
+        if (!hotel.isOpen()) {
+            throw new IllegalArgumentException("숙박업소가 운영 중이지 않습니다.");
+        }
+
+        for (ReservationLineRoom reservationLineRoom : reservationLineRooms) {
+            reservationLineRoom.validate();
+        }
+    }
+
     public void accept() {
         this.reservationStatus = ACCEPT;
     }

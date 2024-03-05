@@ -29,5 +29,6 @@ public class Hotel {
 
     private String name;
     private String description;
+    private boolean open;
     
 }
