@@ -27,7 +27,7 @@ import org.springframework.data.annotation.CreatedDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class    Reservation {
+public class Reservation {
 
     public enum ReservationStatus {
         ACCEPT, CHECKIN, CHECKOUT
@@ -62,6 +62,20 @@ public class    Reservation {
         this.hotel = hotel;
         this.reservationLineRooms = reservationLineRooms;
         this.reservationStatus = reservationStatus;
+    }
+
+    public void validate() {
+        if (reservationLineRooms.isEmpty()) {
+            throw new IllegalArgumentException("방 예약 항목이 비었습니다.");
+        }
+
+        if (!hotel.isOpen()) {
+            throw new IllegalArgumentException("숙박업소가 운영 중이지 않습니다.");
+        }
+
+        for (ReservationLineRoom reservationLineRoom : reservationLineRooms) {
+            reservationLineRoom.validate();
+        }
     }
 
     public void accept() {
