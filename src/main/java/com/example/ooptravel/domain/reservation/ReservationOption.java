@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +22,11 @@ public class ReservationOption {
 
     @Convert(converter = MoneyConverter.class)
     private Money price;
+
+    @Builder
+    public ReservationOption(String name, Money price) {
+        this.name = name;
+        this.price = price;
+    }
 
 }

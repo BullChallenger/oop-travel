@@ -27,7 +27,7 @@ import org.springframework.data.annotation.CreatedDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class    Reservation {
+public class Reservation {
 
     public enum ReservationStatus {
         ACCEPT, CHECKIN, CHECKOUT

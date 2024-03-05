@@ -1,7 +1,5 @@
 package com.example.ooptravel.api.service.hotel;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.example.ooptravel.api.service.hotel.response.HotelRoom;

@@ -1,10 +1,7 @@
 package com.example.ooptravel.api.service.reservation;
 
 import com.example.ooptravel.api.service.reservation.request.ReservationOrder;
-import com.example.ooptravel.domain.hotel.Hotel;
-import com.example.ooptravel.domain.hotel.repository.HotelRepository;
 import com.example.ooptravel.domain.reservation.Reservation;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.ooptravel.domain.reservation.repository.ReservationRepository;
@@ -16,10 +13,12 @@ import lombok.RequiredArgsConstructor;
 public class ReservationService {
 
 	private final ReservationRepository reservationRepository;
-	private final HotelRepository hotelRepository;
+	private final ReservationMapper reservationMapper;
 
-	public void createReservation(ReservationOrder request) {
-
+	public Reservation createReservation(ReservationOrder request) {
+		Reservation reservation = reservationMapper.mapFrom(request);
+		reservation.accept();
+		return reservationRepository.save(reservation);
 	}
 
 }
