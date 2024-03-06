@@ -44,7 +44,7 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionGroup basicAccommodationFeeBuilder() {
+	public static HotelOptionGroup basicAccommodationFeeBuilder() {
 		return HotelOptionGroup.builder()
 			.name("이용 가능 시설 목록")
 			.basic(true)
@@ -59,7 +59,7 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionGroup hotelOptionGroup01Builder() {
+	public static HotelOptionGroup hotelOptionGroup01Builder() {
 		return HotelOptionGroup.builder()
 			.name("이용 가능 시설 목록")
 			.basic(false)
@@ -72,7 +72,7 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionGroup hotelOptionGroup02Builder() {
+	public static HotelOptionGroup hotelOptionGroup02Builder() {
 		return HotelOptionGroup.builder()
 			.name("룸 서비스 목록")
 			.basic(false)
@@ -85,7 +85,7 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionSpecification hotelOptionSpecification01Builder() {
+	public static HotelOptionSpecification hotelOptionSpecification01Builder() {
 		return HotelOptionSpecification.builder()
 			.name("수영장")
 			.isAvailable(true)
@@ -93,7 +93,7 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionSpecification hotelOptionSpecification02Builder() {
+	public static HotelOptionSpecification hotelOptionSpecification02Builder() {
 		return HotelOptionSpecification.builder()
 			.name("바베큐장")
 			.isAvailable(true)
@@ -101,7 +101,7 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionSpecification hotelOptionSpecification03Builder() {
+	public static HotelOptionSpecification hotelOptionSpecification03Builder() {
 		return HotelOptionSpecification.builder()
 			.name("샐러드바")
 			.isAvailable(true)
@@ -109,7 +109,7 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionSpecification hotelOptionSpecification04Builder() {
+	public static HotelOptionSpecification hotelOptionSpecification04Builder() {
 		return HotelOptionSpecification.builder()
 			.name("와인")
 			.isAvailable(true)
@@ -117,7 +117,7 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionSpecification hotelOptionSpecification05Builder() {
+	public static HotelOptionSpecification hotelOptionSpecification05Builder() {
 		return HotelOptionSpecification.builder()
 			.name("양주")
 			.isAvailable(true)
@@ -125,7 +125,7 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionSpecification hotelOptionSpecification06Builder() {
+	public static HotelOptionSpecification hotelOptionSpecification06Builder() {
 		return HotelOptionSpecification.builder()
 			.name("스테이크")
 			.isAvailable(true)
