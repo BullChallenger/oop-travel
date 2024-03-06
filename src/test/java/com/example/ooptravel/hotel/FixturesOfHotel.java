@@ -1,5 +1,6 @@
-package com.example.ooptravel;
+package com.example.ooptravel.hotel;
 
+import com.example.ooptravel.domain.hotel.Bed;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import com.example.ooptravel.domain.hotel.HotelOptionGroup;
 import com.example.ooptravel.domain.hotel.HotelOptionSpecification;
 import com.example.ooptravel.domain.hotel.Room;
 
-public class Fixtures {
+public class FixturesOfHotel {
 
 	public static Hotel hotelBuilder() {
 		return Hotel.builder()
@@ -31,6 +32,7 @@ public class Fixtures {
 			.basicOption(basicAccommodationFeeBuilder())
 			.hotelOptionGroups(List.of(hotelOptionGroup01Builder(), hotelOptionGroup02Builder()))
 			.name("디럭스룸")
+			.bed(new Bed("퀸 사이즈", 2))
 			.standardNumberOfPeople(2)
 			.maximumNumberOfPeople(3)
 			.period(DateTimePeriod.between(checkInDateTime,  checkOutDateTime))
@@ -46,7 +48,7 @@ public class Fixtures {
 
 	public static HotelOptionGroup basicAccommodationFeeBuilder() {
 		return HotelOptionGroup.builder()
-			.name("이용 가능 시설 목록")
+			.name("숙박 요금")
 			.basic(true)
 			.exclusive(true)
 			.optionSpecs(List.of(

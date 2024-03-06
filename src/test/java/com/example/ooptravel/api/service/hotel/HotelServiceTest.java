@@ -1,13 +1,11 @@
 package com.example.ooptravel.api.service.hotel;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.ooptravel.Fixtures;
+import com.example.ooptravel.hotel.FixturesOfHotel;
 import com.example.ooptravel.api.service.hotel.response.HotelRoom;
 import com.example.ooptravel.domain.hotel.repository.HotelRepository;
 import com.example.ooptravel.domain.hotel.repository.RoomRepository;
@@ -27,8 +25,7 @@ class HotelServiceTest {
 
 	@Test
 	void test() {
-		roomRepository.save(Fixtures.roomBuilder());
-		hotelRepository.save(Fixtures.hotelBuilder());
+		hotelRepository.save(FixturesOfHotel.hotelBuilder());
 
 		HotelRoom hotelRoom = hotelService.readHotelRooms(1L);
 		System.out.println(hotelRoom);
