@@ -75,6 +75,9 @@ public class Reservation {
             throw new IllegalArgumentException("숙박업소가 운영 중이지 않습니다.");
         }
 
+        for (ReservationLineRoom reservationLineRoom : reservationLineRooms) {
+            reservationLineRoom.validate();
+        }
 
     }
 

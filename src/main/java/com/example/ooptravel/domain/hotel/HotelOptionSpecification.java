@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class HotelService {
+public class HotelOptionSpecification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,14 +31,16 @@ public class HotelService {
     private Money price;
 
     @Builder
-    public HotelService(String name, boolean isAvailable, Money price) {
+    public HotelOptionSpecification(String name, boolean isAvailable, Money price) {
         this.name = name;
         this.isAvailable = isAvailable;
         this.price = price;
     }
 
-    public boolean isSatisfiedBy(ReservationOption option) {
-        return isAvailable && name.equals(option.getName()) && price.equals(option.getPrice());
+    public boolean isSatisfiedBy(ReservationOption reservationOptionSpec) {
+        return isAvailable &&
+            reservationOptionSpec.getName().equals(name) &&
+            reservationOptionSpec.getPrice().isEqualTo(price);
     }
 
 }

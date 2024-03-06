@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.example.ooptravel.api.service.reservation.request.ReservationOrder;
-import com.example.ooptravel.domain.generic.time.DateTimePeriod;
 import com.example.ooptravel.domain.hotel.Hotel;
 import com.example.ooptravel.domain.hotel.Room;
 import com.example.ooptravel.domain.hotel.repository.HotelRepository;
@@ -40,7 +39,7 @@ public class ReservationMapper {
 
 		return ReservationLineRoom.builder()
 			.room(room)
-			.period(DateTimePeriod.between(room.getCheckInDate().toLocalTime(), room.getCheckOutDate().toLocalTime()))
+			.roomName(room.getName())
 			.reservationOptionGroups(roomOrder.getOptionGroups().stream().map(this::ofReservationLineRoomBy).toList())
 			.build();
 	}
