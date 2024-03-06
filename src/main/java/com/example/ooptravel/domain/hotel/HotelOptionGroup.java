@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,7 @@ public class HotelOptionGroup {
     @JoinColumn(name = "HOTEL_SERVICE_GROUP_ID")
     private List<HotelOptionSpecification> optionSpecs = new ArrayList<>();
 
+    @Builder
     public HotelOptionGroup(String name, boolean basic, boolean exclusive, List<HotelOptionSpecification> optionSpecs) {
         this.name = name;
         this.basic = basic;

@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,5 +31,14 @@ public class Hotel {
     private String name;
     private String description;
     private boolean open;
-    
+
+    @Builder
+    public Hotel(Address address, List<Room> rooms, String name, String description, boolean open) {
+        this.address = address;
+        this.rooms = rooms;
+        this.name = name;
+        this.description = description;
+        this.open = open;
+    }
+
 }

@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -43,6 +44,17 @@ public class Room {
 
     @Embedded
     private Bed bed;
+
+    @Builder
+    public Room(List<HotelOptionGroup> hotelOptionGroups, String name, int standardNumberOfPeople,
+        int maximumNumberOfPeople, DateTimePeriod period, Bed bed) {
+        this.hotelOptionGroups = hotelOptionGroups;
+        this.name = name;
+        this.standardNumberOfPeople = standardNumberOfPeople;
+        this.maximumNumberOfPeople = maximumNumberOfPeople;
+        this.period = period;
+        this.bed = bed;
+    }
 
     public Money getBaseAccommodationFee() {
         return getBasicOptionHotelService().getOptionSpecs().get(0).getPrice();
