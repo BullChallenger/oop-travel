@@ -9,8 +9,10 @@ import com.example.ooptravel.domain.hotel.Hotel;
 import com.example.ooptravel.domain.hotel.Room;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class HotelRoom {
 
 	private final Long hotelId;
@@ -32,6 +34,7 @@ public class HotelRoom {
 	}
 
 	@Getter
+	@ToString
 	public static class RoomItem {
 		private final Long roomId;
 		private final String name;

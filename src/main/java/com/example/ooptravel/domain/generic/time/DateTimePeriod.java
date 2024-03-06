@@ -3,7 +3,6 @@ package com.example.ooptravel.domain.generic.time;
 import jakarta.persistence.Embeddable;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -12,12 +11,12 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class DateTimePeriod {
 
-    private LocalDateTime from;
-    private LocalDateTime to;
+    private LocalDateTime checkInDateTime;
+    private LocalDateTime checkOutDateTime;
 
     public DateTimePeriod(LocalDateTime from, LocalDateTime to) {
-        this.from = from;
-        this.to = to;
+        this.checkInDateTime = from;
+        this.checkOutDateTime = to;
     }
 
     public static DateTimePeriod between(LocalDateTime from, LocalDateTime to) {
@@ -25,16 +24,16 @@ public class DateTimePeriod {
     }
 
     public boolean contains(LocalDateTime time) {
-        return (time.isAfter(from) || time.equals(from)) &&
-                (time.isBefore(to) || time.equals(to));
+        return (time.isAfter(checkInDateTime) || time.equals(checkInDateTime)) &&
+                (time.isBefore(checkOutDateTime) || time.equals(checkOutDateTime));
     }
 
     public boolean isRightScheduleTIme(LocalDateTime checkInTime, LocalDateTime checkOutTime) {
-        return checkInTime.equals(from) && checkOutTime.equals(to);
+        return checkInTime.equals(checkInDateTime) && checkOutTime.equals(checkOutDateTime);
     }
 
     public long period() {
-        return ChronoUnit.DAYS.between(from, to);
+        return ChronoUnit.DAYS.between(checkInDateTime, checkOutDateTime);
     }
 
 }

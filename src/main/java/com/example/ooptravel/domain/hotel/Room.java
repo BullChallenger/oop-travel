@@ -1,9 +1,7 @@
 package com.example.ooptravel.domain.hotel;
 
-import com.example.ooptravel.api.service.reservation.request.ReservationOrder;
 import com.example.ooptravel.domain.generic.money.Money;
 import com.example.ooptravel.domain.generic.time.DateTimePeriod;
-import com.example.ooptravel.domain.reservation.ReservationOption;
 import com.example.ooptravel.domain.reservation.ReservationOptionGroup;
 
 import jakarta.persistence.CascadeType;
@@ -13,8 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -33,6 +31,7 @@ public class Room {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ROOM_ID")
     private List<HotelOptionGroup> hotelOptionGroups = new ArrayList<>();
 
     private String name;
@@ -46,14 +45,19 @@ public class Room {
     private Bed bed;
 
     @Builder
-    public Room(List<HotelOptionGroup> hotelOptionGroups, String name, int standardNumberOfPeople,
-        int maximumNumberOfPeople, DateTimePeriod period, Bed bed) {
-        this.hotelOptionGroups = hotelOptionGroups;
+    public Room(HotelOptionGroup basicOption, List<HotelOptionGroup> hotelOptionGroups, String name,
+        int standardNumberOfPeople, int maximumNumberOfPeople, DateTimePeriod period, Bed bed) {
+        this.hotelOptionGroups.add(basicOption);
+        this.hotelOptionGroups.addAll(hotelOptionGroups);
         this.name = name;
         this.standardNumberOfPeople = standardNumberOfPeople;
         this.maximumNumberOfPeople = maximumNumberOfPeople;
         this.period = period;
         this.bed = bed;
+    }
+
+    public void setBasicAccommodationFee(HotelOptionGroup basicOption) {
+        this.hotelOptionGroups.add(basicOption);
     }
 
     public Money getBaseAccommodationFee() {

@@ -1,10 +1,14 @@
 package com.example.ooptravel.api.service.hotel;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.ooptravel.api.service.hotel.response.HotelRoom;
 import com.example.ooptravel.domain.hotel.Hotel;
+import com.example.ooptravel.domain.hotel.Room;
 import com.example.ooptravel.domain.hotel.repository.HotelRepository;
+import com.example.ooptravel.domain.hotel.repository.RoomRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

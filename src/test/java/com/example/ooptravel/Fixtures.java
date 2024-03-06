@@ -3,6 +3,7 @@ package com.example.ooptravel;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.ooptravel.domain.generic.money.Money;
 import com.example.ooptravel.domain.generic.time.DateTimePeriod;
 import com.example.ooptravel.domain.hotel.Address;
 import com.example.ooptravel.domain.hotel.Hotel;
@@ -15,10 +16,10 @@ public class Fixtures {
 	public static Hotel hotelBuilder() {
 		return Hotel.builder()
 			.address(addressBuilder())
-			.rooms()
-			.name()
-			.description()
-			.open()
+			.rooms(List.of(roomBuilder()))
+			.name("스탠포드 호텔")
+			.description("스탠포드 호텔은 서울 상암에 위치한 호텔입니다.")
+			.open(true)
 			.build();
 	}
 
@@ -27,6 +28,7 @@ public class Fixtures {
 		LocalDateTime checkOutDateTime = checkInDateTime.minusDays(1L);
 
 		return Room.builder()
+			.basicOption(basicAccommodationFeeBuilder())
 			.hotelOptionGroups(List.of(hotelOptionGroup01Builder(), hotelOptionGroup02Builder()))
 			.name("디럭스룸")
 			.standardNumberOfPeople(2)
@@ -42,11 +44,26 @@ public class Fixtures {
 			.build();
 	}
 
-	private static HotelOptionGroup hotelOptionGroup01Builder() {
+	private static HotelOptionGroup basicAccommodationFeeBuilder() {
 		return HotelOptionGroup.builder()
 			.name("이용 가능 시설 목록")
 			.basic(true)
 			.exclusive(true)
+			.optionSpecs(List.of(
+				HotelOptionSpecification.builder()
+					.name("기본 숙박 요금")
+					.isAvailable(true)
+					.price(Money.wons(100000))
+					.build()
+			))
+			.build();
+	}
+
+	private static HotelOptionGroup hotelOptionGroup01Builder() {
+		return HotelOptionGroup.builder()
+			.name("이용 가능 시설 목록")
+			.basic(false)
+			.exclusive(false)
 			.optionSpecs(List.of(
 					hotelOptionSpecification01Builder(),
 					hotelOptionSpecification02Builder(),
@@ -72,6 +89,7 @@ public class Fixtures {
 		return HotelOptionSpecification.builder()
 			.name("수영장")
 			.isAvailable(true)
+			.price(Money.wons(50000L))
 			.build();
 	}
 
@@ -79,6 +97,7 @@ public class Fixtures {
 		return HotelOptionSpecification.builder()
 			.name("바베큐장")
 			.isAvailable(true)
+			.price(Money.wons(50000L))
 			.build();
 	}
 
@@ -86,6 +105,7 @@ public class Fixtures {
 		return HotelOptionSpecification.builder()
 			.name("샐러드바")
 			.isAvailable(true)
+			.price(Money.wons(50000L))
 			.build();
 	}
 
@@ -93,6 +113,7 @@ public class Fixtures {
 		return HotelOptionSpecification.builder()
 			.name("와인")
 			.isAvailable(true)
+			.price(Money.wons(50000L))
 			.build();
 	}
 
@@ -100,13 +121,15 @@ public class Fixtures {
 		return HotelOptionSpecification.builder()
 			.name("양주")
 			.isAvailable(true)
+			.price(Money.wons(50000L))
 			.build();
 	}
 
 	private static HotelOptionSpecification hotelOptionSpecification06Builder() {
 		return HotelOptionSpecification.builder()
-			.name("샐러드바")
+			.name("스테이크")
 			.isAvailable(true)
+			.price(Money.wons(50000L))
 			.build();
 	}
 
