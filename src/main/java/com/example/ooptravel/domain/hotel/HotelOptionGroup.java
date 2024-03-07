@@ -63,8 +63,15 @@ public class HotelOptionGroup {
 
     private boolean isSatisfied(String optionGroupName, List<ReservationOption> optionSpecs) {
         if (!name.equals(optionGroupName)) {
+            System.out.println("Difference");
+            System.out.println("호텔 옵션 그룹의 이름 : " + name);
+            System.out.println("예약 옵션 그룹의 이름 : " + optionGroupName);
             return false;
         }
+
+        System.out.println("SAME");
+        System.out.println("호텔 옵션 그룹의 이름 : " + name);
+        System.out.println("예약 옵션 그룹의 이름 : " + optionGroupName);
 
         if (optionSpecs.isEmpty()) {
             return false;
@@ -78,7 +85,7 @@ public class HotelOptionGroup {
     }
 
     private List<ReservationOption> satisfied(List<ReservationOption> reservationOptionSpecs) {
-        return this.optionSpecs.stream()
+        return optionSpecs.stream()
             .flatMap(optionSpec -> reservationOptionSpecs.stream().filter(optionSpec::isSatisfiedBy))
             .toList();
     }

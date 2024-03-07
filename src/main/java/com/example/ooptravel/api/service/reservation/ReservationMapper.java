@@ -1,5 +1,6 @@
 package com.example.ooptravel.api.service.reservation;
 
+import com.example.ooptravel.domain.generic.time.DateTimePeriod;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -40,6 +41,7 @@ public class ReservationMapper {
 		return ReservationLineRoom.builder()
 			.room(room)
 			.roomName(room.getName())
+			.period(DateTimePeriod.between(roomOrder.getCheckInDateTime(), roomOrder.getCheckOutDateTime()))
 			.reservationOptionGroups(roomOrder.getOptionGroups().stream().map(this::ofReservationLineRoomBy).toList())
 			.build();
 	}

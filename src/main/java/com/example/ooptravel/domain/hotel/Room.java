@@ -71,12 +71,16 @@ public class Room {
                 .orElseThrow(IllegalStateException::new);
     }
 
-    public void validate(String roomName, List<ReservationOptionGroup> optionGroups) {
+    public void validate(String roomName, List<ReservationOptionGroup> optionGroups, DateTimePeriod reservationPeriod) {
         if (!name.equals(roomName)) {
             throw new IllegalArgumentException("예약한 방의 이름과 호텔의 방 이름이 일치하지 않습니다.");
         }
 
-        if (!isSatisfiedBy(optionGroups)) {
+        if (!period.equals(reservationPeriod)) {
+            throw new IllegalArgumentException("예약한 방의 체크인/아웃 시간과 실제 체크인/아웃 시간이 일치하지 않습니다.");
+        }
+
+        if (isSatisfiedBy(optionGroups)) {
             throw new IllegalArgumentException("예약 옵션과 실제 제공되는 옵션에 차이가 존재합니다.");
         }
     }

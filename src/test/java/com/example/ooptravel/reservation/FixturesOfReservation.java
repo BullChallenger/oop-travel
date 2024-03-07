@@ -2,6 +2,7 @@ package com.example.ooptravel.reservation;
 
 import com.example.ooptravel.api.service.reservation.request.ReservationOrder;
 import com.example.ooptravel.domain.generic.money.Money;
+import com.example.ooptravel.domain.generic.time.DateTimePeriod;
 import com.example.ooptravel.domain.reservation.Reservation;
 import com.example.ooptravel.domain.reservation.Reservation.ReservationStatus;
 import com.example.ooptravel.domain.reservation.ReservationLineRoom;
@@ -23,15 +24,19 @@ public class FixturesOfReservation {
             .build();
     }
 
-    private static ReservationLineRoom reservationLineRoomBuilder() {
+    public static ReservationLineRoom reservationLineRoomBuilder() {
+        LocalDateTime checkInDateTime = LocalDateTime.of(2024, 3, 5, 12, 0);
+        LocalDateTime checkOutDateTime = checkInDateTime.minusDays(1L);
+
         return ReservationLineRoom.builder()
             .room(FixturesOfHotel.roomBuilder())
             .roomName("디럭스룸")
+            .period(DateTimePeriod.between(checkInDateTime, checkOutDateTime))
             .reservationOptionGroups(List.of(reservationBasicOptionGroupBuilder(), reservationOptionGroupBuilder()))
             .build();
     }
 
-    private static ReservationOptionGroup reservationBasicOptionGroupBuilder() {
+    public static ReservationOptionGroup reservationBasicOptionGroupBuilder() {
         return ReservationOptionGroup.builder()
             .name("숙박 요금")
             .reservationOptionSpecs(List.of(
@@ -43,21 +48,21 @@ public class FixturesOfReservation {
             .build();
     }
 
-    private static ReservationOptionGroup reservationOptionGroupBuilder() {
+    public static ReservationOptionGroup reservationOptionGroupBuilder() {
         return ReservationOptionGroup.builder()
             .name("이용 가능 시설 목록")
             .reservationOptionSpecs(List.of(reservationOptionBuilder01(), reservationOptionBuilder02()))
             .build();
     }
 
-    private static ReservationOption reservationOptionBuilder01() {
+    public static ReservationOption reservationOptionBuilder01() {
         return ReservationOption.builder()
             .name("수영장")
             .price(Money.wons(50000L))
             .build();
     }
 
-    private static ReservationOption reservationOptionBuilder02() {
+    public static ReservationOption reservationOptionBuilder02() {
         return ReservationOption.builder()
             .name("바베큐장")
             .price(Money.wons(50000L))

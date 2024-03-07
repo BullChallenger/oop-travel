@@ -4,8 +4,8 @@ import jakarta.persistence.Embeddable;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,12 +29,28 @@ public class DateTimePeriod {
                 (time.isBefore(checkOutDateTime) || time.equals(checkOutDateTime));
     }
 
-    public boolean isRightScheduleTIme(LocalDateTime checkInTime, LocalDateTime checkOutTime) {
-        return checkInTime.equals(checkInDateTime) && checkOutTime.equals(checkOutDateTime);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        DateTimePeriod that = (DateTimePeriod) o;
+
+        if (!Objects.equals(checkInDateTime, that.checkInDateTime)) {
+            return false;
+        }
+        return Objects.equals(checkOutDateTime, that.checkOutDateTime);
     }
 
-    public long period() {
-        return ChronoUnit.DAYS.between(checkInDateTime, checkOutDateTime);
+    @Override
+    public int hashCode() {
+        int result = checkInDateTime != null ? checkInDateTime.hashCode() : 0;
+        result = 31 * result + (checkOutDateTime != null ? checkOutDateTime.hashCode() : 0);
+        return result;
     }
 
 }

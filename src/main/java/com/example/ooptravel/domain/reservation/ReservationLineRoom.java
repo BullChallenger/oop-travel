@@ -4,6 +4,7 @@ import com.example.ooptravel.domain.generic.money.Money;
 import com.example.ooptravel.domain.generic.time.DateTimePeriod;
 import com.example.ooptravel.domain.hotel.Room;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +13,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -36,14 +36,18 @@ public class ReservationLineRoom {
 
     private String roomName;
 
+    @Embedded
+    private DateTimePeriod period;
+
     @OneToMany
     @JoinColumn(name = "RESERVATION_LINE_ROOM_ID")
     private List<ReservationOptionGroup> reservationOptionGroups = new ArrayList<>();
 
     @Builder
-    public ReservationLineRoom(Room room, String roomName, List<ReservationOptionGroup> reservationOptionGroups) {
+    public ReservationLineRoom(Room room, String roomName, DateTimePeriod period, List<ReservationOptionGroup> reservationOptionGroups) {
         this.room = room;
         this.roomName = roomName;
+        this.period = period;
         this.reservationOptionGroups = reservationOptionGroups;
     }
 
@@ -52,7 +56,7 @@ public class ReservationLineRoom {
     }
 
     public void validate() {
-        room.validate(roomName, reservationOptionGroups);
+        room.validate(roomName, reservationOptionGroups, period);
     }
 
 }

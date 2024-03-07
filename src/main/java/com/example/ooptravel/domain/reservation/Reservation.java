@@ -4,8 +4,6 @@ import static com.example.ooptravel.domain.reservation.Reservation.ReservationSt
 import static com.example.ooptravel.domain.reservation.Reservation.ReservationStatus.CHECKIN;
 import static com.example.ooptravel.domain.reservation.Reservation.ReservationStatus.CHECKOUT;
 
-import com.example.ooptravel.api.service.reservation.request.ReservationOrder;
-import com.example.ooptravel.api.service.reservation.request.ReservationOrder.ReservationRoomOrder;
 import com.example.ooptravel.domain.generic.money.Money;
 import com.example.ooptravel.domain.hotel.Hotel;
 import jakarta.persistence.Column;
