@@ -46,4 +46,12 @@ public class Hotel {
         this.rooms = rooms;
     }
 
+    public void open() {
+        this.open = true;
+    }
+
+    public void close() {
+        this.open = false;
+    }
+
 }

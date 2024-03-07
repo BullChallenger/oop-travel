@@ -2,10 +2,12 @@ package com.example.ooptravel.api.service.reservation.request;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.example.ooptravel.domain.generic.money.Money;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -15,6 +17,7 @@ public class ReservationOrder {
 	private final Long hotelId;
 	private final List<ReservationRoomOrder> roomOrders;
 
+	@Builder
 	public ReservationOrder(Long userId, Long hotelId, List<ReservationRoomOrder> orders) {
 		this.userId = userId;
 		this.hotelId = hotelId;
@@ -28,6 +31,7 @@ public class ReservationOrder {
 		private final LocalDateTime checkOutDateTime;
 		private final List<ReservationOrderOptionGroup> optionGroups;
 
+		@Builder
 		public ReservationRoomOrder(Long roomId, List<ReservationOrderOptionGroup> optionGroups,
 									LocalDateTime checkInDateTime, LocalDateTime checkOutDateTime
 		) {
@@ -43,8 +47,9 @@ public class ReservationOrder {
 		private final String name;
 		private final List<ReservationOrderOption> optionSpecs = new ArrayList<>();
 
-		public ReservationOrderOptionGroup(String name) {
+		public ReservationOrderOptionGroup(String name, ReservationOrderOption... orderOptions) {
 			this.name = name;
+			this.optionSpecs.addAll(Arrays.asList(orderOptions));
 		}
 	}
 

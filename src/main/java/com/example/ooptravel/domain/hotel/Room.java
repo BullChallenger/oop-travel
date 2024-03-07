@@ -88,4 +88,5 @@ public class Room {
     private boolean isSatisfiedBy(ReservationOptionGroup optionGroup) {
         return hotelOptionGroups.stream().anyMatch(optionSpec -> optionSpec.isSatisfiedBy(optionGroup));
     }
+
 }

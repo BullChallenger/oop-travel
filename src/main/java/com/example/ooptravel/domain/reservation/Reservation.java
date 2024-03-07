@@ -6,6 +6,7 @@ import static com.example.ooptravel.domain.reservation.Reservation.ReservationSt
 
 import com.example.ooptravel.api.service.reservation.request.ReservationOrder;
 import com.example.ooptravel.api.service.reservation.request.ReservationOrder.ReservationRoomOrder;
+import com.example.ooptravel.domain.generic.money.Money;
 import com.example.ooptravel.domain.hotel.Hotel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -91,6 +92,10 @@ public class Reservation {
 
     public void checkOut() {
         this.reservationStatus = CHECKOUT;
+    }
+
+    public Money calculateTotalAmountOfReservation() {
+        return Money.sum(reservationLineRooms, ReservationLineRoom::calculateTotalAmountOfRoomReservation);
     }
 
 }

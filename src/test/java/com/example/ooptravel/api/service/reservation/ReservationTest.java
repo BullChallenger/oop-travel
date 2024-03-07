@@ -1,12 +1,16 @@
 package com.example.ooptravel.api.service.reservation;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 
 import com.example.ooptravel.api.service.reservation.request.ReservationOrder;
 import com.example.ooptravel.domain.generic.money.Money;
+import com.example.ooptravel.domain.hotel.Room;
 import com.example.ooptravel.domain.hotel.repository.HotelRepository;
 import com.example.ooptravel.domain.reservation.Reservation;
+import com.example.ooptravel.domain.reservation.ReservationLineRoom;
+import com.example.ooptravel.domain.reservation.ReservationOptionGroup;
 import com.example.ooptravel.hotel.FixturesOfHotel;
 import com.example.ooptravel.reservation.FixturesOfReservation;
 
@@ -17,11 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @SpringBootTest
-class ReservationServiceTest {
+class ReservationTest {
 
     @Autowired
     private HotelRepository hotelRepository;
@@ -48,7 +51,7 @@ class ReservationServiceTest {
         assertThat(reservation.calculateTotalAmountOfReservation()).isEqualTo(Money.wons(150000L));
     }
 
-    @DisplayName("")
+    @DisplayName("호텔이 운영 중이지 않을 때 예약 시 예외 발생")
     @Test
     void reservation_validate_test() {
         // given
@@ -59,6 +62,29 @@ class ReservationServiceTest {
         assertThatThrownBy(reservation::validate)
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("숙박업소가 운영 중이지 않습니다.");
+    }
+
+    @DisplayName("예약한 방의 이름과 제공되는 숙소의 이름이 일치하지 않을 때 예외 발생")
+    @Test
+    void reservationGroup_validate_test() {
+        // given
+        Room room = FixturesOfHotel.roomBuilder();
+        List<ReservationOptionGroup> optionGroups;
+
+        // when, then
+        assertThatThrownBy(() -> room.validate("wrong_room_name", List.of()))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("예약한 방의 이름과 호텔의 방 이름이 일치하지 않습니다.");
+    }
+
+    @DisplayName("")
+    @Test
+    void () {
+        // given
+
+        // when
+
+        // then
     }
 
 }

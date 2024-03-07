@@ -1,5 +1,7 @@
 package com.example.ooptravel.domain.reservation;
 
+import com.example.ooptravel.domain.generic.money.Money;
+import com.example.ooptravel.domain.generic.time.DateTimePeriod;
 import com.example.ooptravel.domain.hotel.Room;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -41,6 +45,10 @@ public class ReservationLineRoom {
         this.room = room;
         this.roomName = roomName;
         this.reservationOptionGroups = reservationOptionGroups;
+    }
+
+    public Money calculateTotalAmountOfRoomReservation() {
+        return Money.sum(reservationOptionGroups, ReservationOptionGroup::calculateTotalPrice);
     }
 
     public void validate() {
