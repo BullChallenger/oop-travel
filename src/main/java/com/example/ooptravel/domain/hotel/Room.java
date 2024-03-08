@@ -45,10 +45,10 @@ public class Room {
     private Bed bed;
 
     @Builder
-    public Room(HotelOptionGroup basicOption, List<HotelOptionGroup> hotelOptionGroups, String name,
-        int standardNumberOfPeople, int maximumNumberOfPeople, DateTimePeriod period, Bed bed) {
-        this.hotelOptionGroups.add(basicOption);
-        this.hotelOptionGroups.addAll(hotelOptionGroups);
+    public Room(List<HotelOptionGroup> hotelOptionGroups, String name, int standardNumberOfPeople,
+                int maximumNumberOfPeople, DateTimePeriod period, Bed bed
+    ) {
+        this.hotelOptionGroups = hotelOptionGroups;
         this.name = name;
         this.standardNumberOfPeople = standardNumberOfPeople;
         this.maximumNumberOfPeople = maximumNumberOfPeople;
@@ -80,17 +80,19 @@ public class Room {
             throw new IllegalArgumentException("예약한 방의 체크인/아웃 시간과 실제 체크인/아웃 시간이 일치하지 않습니다.");
         }
 
-        if (isSatisfiedBy(optionGroups)) {
+        boolean result = isSatisfiedBy(optionGroups);
+        System.out.println(result);
+        if (!result) {
             throw new IllegalArgumentException("예약 옵션과 실제 제공되는 옵션에 차이가 존재합니다.");
         }
     }
 
     private boolean isSatisfiedBy(List<ReservationOptionGroup> optionGroups) {
-        return optionGroups.stream().anyMatch(this::isSatisfiedBy);
+        return optionGroups.stream().allMatch(this::isSatisfiedBy);
     }
 
     private boolean isSatisfiedBy(ReservationOptionGroup optionGroup) {
-        return hotelOptionGroups.stream().anyMatch(optionSpec -> optionSpec.isSatisfiedBy(optionGroup));
+        return hotelOptionGroups.stream().anyMatch(hotelOptionGroup -> hotelOptionGroup.isSatisfiedBy(optionGroup));
     }
 
 }

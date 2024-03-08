@@ -29,8 +29,7 @@ public class FixturesOfHotel {
 		LocalDateTime checkOutDateTime = checkInDateTime.minusDays(1L);
 
 		return Room.builder()
-			.basicOption(basicAccommodationFeeBuilder())
-			.hotelOptionGroups(List.of(hotelOptionGroup01Builder(), hotelOptionGroup02Builder()))
+			.hotelOptionGroups(List.of(basicAccommodationFeeBuilder(), hotelOptionGroup01Builder()))
 			.name("디럭스룸")
 			.bed(new Bed("퀸 사이즈", 2))
 			.standardNumberOfPeople(2)

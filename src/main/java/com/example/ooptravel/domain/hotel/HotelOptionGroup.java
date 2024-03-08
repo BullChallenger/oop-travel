@@ -58,7 +58,7 @@ public class HotelOptionGroup {
     }
 
     public boolean isSatisfiedBy(ReservationOptionGroup optionGroup) {
-        return !isSatisfied(optionGroup.getName(), satisfied(optionGroup.getReservationOptionSpecs()));
+        return isSatisfied(optionGroup.getName(), satisfied(optionGroup.getReservationOptionSpecs()));
     }
 
     private boolean isSatisfied(String optionGroupName, List<ReservationOption> optionSpecs) {

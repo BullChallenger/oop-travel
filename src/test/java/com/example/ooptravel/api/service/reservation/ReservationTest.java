@@ -13,6 +13,7 @@ import com.example.ooptravel.api.service.reservation.request.ReservationOrder;
 import com.example.ooptravel.domain.generic.money.Money;
 import com.example.ooptravel.domain.hotel.Room;
 import com.example.ooptravel.domain.hotel.repository.HotelRepository;
+import com.example.ooptravel.domain.hotel.repository.RoomRepository;
 import com.example.ooptravel.domain.reservation.Reservation;
 import com.example.ooptravel.domain.reservation.ReservationLineRoom;
 import com.example.ooptravel.domain.reservation.ReservationOptionGroup;
@@ -26,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @SpringBootTest
@@ -86,28 +89,27 @@ class ReservationTest {
     @Test
     void reservationRoom_OptionGroupName_test() {
         // given
-        Room room = FixturesOfHotel.roomBuilder();
         LocalDateTime checkInDateTime = LocalDateTime.of(2024, 3, 5, 12, 0);
         LocalDateTime checkOutDateTime = checkInDateTime.minusDays(1L);
         List<ReservationOptionGroup> reservationOptionGroups = List.of(
-                FixturesOfReservation.reservationBasicOptionGroupBuilder(),
-                FixturesOfReservation.reservationOptionGroupBuilder()
+            FixturesOfReservation.reservationBasicOptionGroupBuilder(),
+            ReservationOptionGroup.builder()
+                .name("wrong_option_group_name")
+                .reservationOptionSpecs(List.of(FixturesOfReservation.reservationOptionBuilder01()))
+                .build()
         );
 
-        reservationOptionGroups.stream().forEach(group -> System.out.println(group.getName()));
-        System.out.println("===========");
-        room.getHotelOptionGroups().forEach(group -> System.out.println(group.getName()));
+        ReservationLineRoom reservationLineRoom = ReservationLineRoom.builder()
+            .room(FixturesOfHotel.roomBuilder())
+            .roomName("디럭스룸")
+            .period(DateTimePeriod.between(checkInDateTime, checkOutDateTime))
+            .reservationOptionGroups(reservationOptionGroups)
+            .build();
 
         // when, then
-        room.validate( "디럭스룸",
-                reservationOptionGroups,
-                DateTimePeriod.between(checkInDateTime, checkOutDateTime));
-//        assertThatThrownBy(() -> room.validate(
-//                "디럭스룸",
-//                reservationOptionGroups,
-//                DateTimePeriod.between(checkInDateTime, checkOutDateTime))
-//        ).isInstanceOf(IllegalArgumentException.class)
-//        .hasMessage("예약 옵션과 실제 제공되는 옵션에 차이가 존재합니다.");
+       assertThatThrownBy(reservationLineRoom::validate)
+           .isInstanceOf(IllegalArgumentException.class)
+           .hasMessage("예약 옵션과 실제 제공되는 옵션에 차이가 존재합니다.");
     }
 
     @DisplayName("예약한 방의 체크인/아웃 시간과 실제 체크인/아웃 시간이 일치하지 않을 때")
