@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ooptravel.domain.reservation.repository.ReservationRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Transactional(readOnly = true)
@@ -23,6 +24,18 @@ public class ReservationService {
 		reservation.validate();
 		reservation.accept();
 		return reservationRepository.save(reservation);
+	}
+
+	@Transactional
+	public void hotelCheckIn(Long reservationId) {
+		Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(EntityNotFoundException::new);
+		reservation.checkIn();
+	}
+
+	@Transactional
+	public void hotelCheckOut(Long reservationId) {
+		Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(EntityNotFoundException::new);
+		reservation.checkOut();
 	}
 
 }

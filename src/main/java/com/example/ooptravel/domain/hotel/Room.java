@@ -57,10 +57,6 @@ public class Room {
         this.bed = bed;
     }
 
-    public void setBasicAccommodationFee(HotelOptionGroup basicOption) {
-        this.hotelOptionGroups.add(basicOption);
-    }
-
     public Money getBaseAccommodationFee() {
         return getBasicOptionHotelService().getOptionSpecs().get(0).getPrice();
     }
