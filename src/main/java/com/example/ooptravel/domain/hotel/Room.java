@@ -68,7 +68,7 @@ public class Room {
                 .orElseThrow(IllegalStateException::new);
     }
 
-    public void validate(String roomName, List<ReservationOptionGroup> optionGroups, DateTimePeriod reservationPeriod) {
+    public void validate(String roomName, List<OptionGroup> optionGroups, DateTimePeriod reservationPeriod) {
         if (!name.equals(roomName)) {
             throw new IllegalArgumentException("예약한 방의 이름과 호텔의 방 이름이 일치하지 않습니다.");
         }
@@ -82,11 +82,11 @@ public class Room {
         }
     }
 
-    private boolean isSatisfiedBy(List<ReservationOptionGroup> optionGroups) {
+    private boolean isSatisfiedBy(List<OptionGroup> optionGroups) {
         return optionGroups.stream().allMatch(this::isSatisfiedBy);
     }
 
-    private boolean isSatisfiedBy(ReservationOptionGroup optionGroup) {
+    private boolean isSatisfiedBy(OptionGroup optionGroup) {
         return hotelOptionGroups.stream().anyMatch(hotelOptionGroup -> hotelOptionGroup.isSatisfiedBy(optionGroup));
     }
 

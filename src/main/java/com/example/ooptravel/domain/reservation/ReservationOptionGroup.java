@@ -1,6 +1,7 @@
 package com.example.ooptravel.domain.reservation;
 
 import com.example.ooptravel.domain.generic.money.Money;
+import com.example.ooptravel.domain.hotel.OptionGroup;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -41,6 +42,13 @@ public class ReservationOptionGroup {
 
     public Money calculateTotalPrice() {
         return Money.sum(reservationOptionSpecs, ReservationOption::getPrice);
+    }
+
+    public OptionGroup convertToOptionGroup() {
+        return OptionGroup.builder()
+            .groupName(name)
+            .optionSpecs(reservationOptionSpecs.stream().map(ReservationOption::convertToOptionSpecification).toList())
+            .build();
     }
 
 }

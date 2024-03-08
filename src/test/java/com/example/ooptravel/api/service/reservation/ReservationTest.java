@@ -127,7 +127,7 @@ class ReservationTest {
         // when, then
         assertThatThrownBy(() -> room.validate(
                 "디럭스룸",
-                reservationOptionGroups,
+                reservationOptionGroups.stream().map(ReservationOptionGroup::convertToOptionGroup).toList(),
                 DateTimePeriod.between(checkInDateTime, checkOutDateTime)
                 )
         ).isInstanceOf(IllegalArgumentException.class)
