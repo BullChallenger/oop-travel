@@ -45,10 +45,11 @@ public class Room {
     private Bed bed;
 
     @Builder
-    public Room(List<HotelOptionGroup> hotelOptionGroups, String name, int standardNumberOfPeople,
+    public Room(HotelOptionGroup basicAccommodationFee, List<HotelOptionGroup> hotelOptionGroups, String name, int standardNumberOfPeople,
                 int maximumNumberOfPeople, DateTimePeriod period, Bed bed
     ) {
-        this.hotelOptionGroups = hotelOptionGroups;
+        this.hotelOptionGroups.add(basicAccommodationFee);
+        this.hotelOptionGroups.addAll(hotelOptionGroups);
         this.name = name;
         this.standardNumberOfPeople = standardNumberOfPeople;
         this.maximumNumberOfPeople = maximumNumberOfPeople;
@@ -80,9 +81,7 @@ public class Room {
             throw new IllegalArgumentException("예약한 방의 체크인/아웃 시간과 실제 체크인/아웃 시간이 일치하지 않습니다.");
         }
 
-        boolean result = isSatisfiedBy(optionGroups);
-        System.out.println(result);
-        if (!result) {
+        if (!isSatisfiedBy(optionGroups)) {
             throw new IllegalArgumentException("예약 옵션과 실제 제공되는 옵션에 차이가 존재합니다.");
         }
     }

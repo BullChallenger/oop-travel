@@ -13,7 +13,6 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-@ToString
 public class ReservationOption {
 
     private String name;

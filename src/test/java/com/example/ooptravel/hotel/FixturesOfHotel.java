@@ -29,7 +29,8 @@ public class FixturesOfHotel {
 		LocalDateTime checkOutDateTime = checkInDateTime.minusDays(1L);
 
 		return Room.builder()
-			.hotelOptionGroups(List.of(basicAccommodationFeeBuilder(), hotelOptionGroup01Builder()))
+			.basicAccommodationFee(basicAccommodationFeeBuilder())
+			.hotelOptionGroups(List.of(hotelOptionGroup01Builder()))
 			.name("디럭스룸")
 			.bed(new Bed("퀸 사이즈", 2))
 			.standardNumberOfPeople(2)
@@ -73,19 +74,6 @@ public class FixturesOfHotel {
 			.build();
 	}
 
-	public static HotelOptionGroup hotelOptionGroup02Builder() {
-		return HotelOptionGroup.builder()
-			.name("룸 서비스 목록")
-			.basic(false)
-			.exclusive(false)
-			.optionSpecs(List.of(
-				hotelOptionSpecification04Builder(),
-				hotelOptionSpecification05Builder(),
-				hotelOptionSpecification06Builder())
-			)
-			.build();
-	}
-
 	public static HotelOptionSpecification hotelOptionSpecification01Builder() {
 		return HotelOptionSpecification.builder()
 			.name("수영장")
@@ -105,30 +93,6 @@ public class FixturesOfHotel {
 	public static HotelOptionSpecification hotelOptionSpecification03Builder() {
 		return HotelOptionSpecification.builder()
 			.name("샐러드바")
-			.isAvailable(true)
-			.price(Money.wons(50000L))
-			.build();
-	}
-
-	public static HotelOptionSpecification hotelOptionSpecification04Builder() {
-		return HotelOptionSpecification.builder()
-			.name("와인")
-			.isAvailable(true)
-			.price(Money.wons(50000L))
-			.build();
-	}
-
-	public static HotelOptionSpecification hotelOptionSpecification05Builder() {
-		return HotelOptionSpecification.builder()
-			.name("양주")
-			.isAvailable(true)
-			.price(Money.wons(50000L))
-			.build();
-	}
-
-	public static HotelOptionSpecification hotelOptionSpecification06Builder() {
-		return HotelOptionSpecification.builder()
-			.name("스테이크")
 			.isAvailable(true)
 			.price(Money.wons(50000L))
 			.build();
