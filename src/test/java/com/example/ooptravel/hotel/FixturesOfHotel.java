@@ -47,18 +47,13 @@ public class FixturesOfHotel {
 	}
 
 	public static HotelOptionGroup basicAccommodationFeeBuilder() {
-		return HotelOptionGroup.builder()
-			.name("숙박 요금")
-			.basic(true)
-			.exclusive(true)
-			.optionSpecs(List.of(
-				HotelOptionSpecification.builder()
-					.name("기본 숙박 요금")
-					.isAvailable(true)
-					.price(Money.wons(100000))
-					.build()
-			))
+		HotelOptionSpecification basicOptionSpec = HotelOptionSpecification.builder()
+			.name("기본 숙박 요금")
+			.isAvailable(true)
+			.price(Money.wons(100000))
 			.build();
+
+		return HotelOptionGroup.basic("숙박 요금", true, basicOptionSpec);
 	}
 
 	public static HotelOptionGroup hotelOptionGroup01Builder() {
