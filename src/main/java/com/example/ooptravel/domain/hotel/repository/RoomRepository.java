@@ -9,6 +9,6 @@ import com.example.ooptravel.domain.hotel.Room;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-	// Optional<List<Room>> findByHotelId(Long hotelId);
+	Optional<List<Room>> findByHotelId(Long hotelId);
 
 }

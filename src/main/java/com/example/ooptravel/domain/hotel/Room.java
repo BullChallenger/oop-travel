@@ -2,7 +2,6 @@ package com.example.ooptravel.domain.hotel;
 
 import com.example.ooptravel.domain.generic.money.Money;
 import com.example.ooptravel.domain.generic.time.DateTimePeriod;
-import com.example.ooptravel.domain.reservation.ReservationOptionGroup;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,6 +36,7 @@ public class Room {
     private String name;
     private int standardNumberOfPeople;
     private int maximumNumberOfPeople;
+    private Long hotelId;
 
     @Embedded
     private DateTimePeriod period;
@@ -46,13 +46,14 @@ public class Room {
 
     @Builder
     public Room(HotelOptionGroup basicAccommodationFee, List<HotelOptionGroup> hotelOptionGroups, String name, int standardNumberOfPeople,
-                int maximumNumberOfPeople, DateTimePeriod period, Bed bed
+                int maximumNumberOfPeople, Long hotelId, DateTimePeriod period, Bed bed
     ) {
         this.hotelOptionGroups.add(basicAccommodationFee);
         this.hotelOptionGroups.addAll(hotelOptionGroups);
         this.name = name;
         this.standardNumberOfPeople = standardNumberOfPeople;
         this.maximumNumberOfPeople = maximumNumberOfPeople;
+        this.hotelId = hotelId;
         this.period = period;
         this.bed = bed;
     }

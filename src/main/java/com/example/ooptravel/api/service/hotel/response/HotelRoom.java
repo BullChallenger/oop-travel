@@ -21,12 +21,12 @@ public class HotelRoom {
 	private final Address address;
 	private final List<RoomItem> roomItems;
 
-	public HotelRoom(Hotel hotel) {
+	public HotelRoom(Hotel hotel, List<Room> rooms) {
 		this.hotelId = hotel.getId();
 		this.hotelName = hotel.getName();
 		this.description = hotel.getDescription();
 		this.address = hotel.getAddress();
-		this.roomItems = convertToRoomItem(hotel.getRooms());
+		this.roomItems = convertToRoomItem(rooms);
 	}
 
 	private List<RoomItem> convertToRoomItem(List<Room> rooms) {

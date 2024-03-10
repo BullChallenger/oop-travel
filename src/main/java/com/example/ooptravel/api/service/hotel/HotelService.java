@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class HotelService {
 
 	private final HotelRepository hotelRepository;
+	private final RoomRepository roomRepository;
 
 	@Transactional(readOnly = true)
 	public HotelRoom readHotelRooms(Long hotelId) {
@@ -26,7 +27,9 @@ public class HotelService {
 			() -> new EntityNotFoundException("호텔 못찾음")
 		);
 
-		return new HotelRoom(hotel);
+		List<Room> rooms = roomRepository.findByHotelId(hotelId).orElseThrow(EntityNotFoundException::new);
+
+		return new HotelRoom(hotel, rooms);
 	}
 
 }

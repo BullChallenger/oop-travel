@@ -1,16 +1,11 @@
 package com.example.ooptravel.domain.hotel;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,17 +28,12 @@ public class Hotel {
     private String description;
     private boolean open;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "HOTEL_ID")
-    private List<Room> rooms = new ArrayList<>();
-
     @Builder
-    public Hotel(Address address, String name, String description, boolean open, List<Room> rooms) {
+    public Hotel(Address address, String name, String description, boolean open) {
         this.address = address;
         this.name = name;
         this.description = description;
         this.open = open;
-        this.rooms = rooms;
     }
 
     public void open() {
