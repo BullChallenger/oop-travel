@@ -12,28 +12,40 @@ import com.example.ooptravel.hotel.FixturesOfHotel;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.cglib.core.Local;
 
 public class FixturesOfReservation {
 
     public static Reservation reservationBuilder() {
         return Reservation.builder()
             .userId(1L)
-            .hotel(FixturesOfHotel.hotelBuilder())
-            .reservationLineRooms(List.of(reservationLineRoomBuilder()))
+            .hotelId(1L)
+            .reservationLineRooms(List.of(reservationLineRoomBuilder("디럭스룸")))
             .reservationStatus(ReservationStatus.ACCEPT)
             .build();
     }
 
-    public static ReservationLineRoom reservationLineRoomBuilder() {
+    public static ReservationLineRoom reservationLineRoomBuilder(String roomName) {
         LocalDateTime checkInDateTime = LocalDateTime.of(2024, 3, 5, 12, 0);
-        LocalDateTime checkOutDateTime = checkInDateTime.minusDays(1L);
+        LocalDateTime checkOutDateTime = checkInDateTime.plusDays(1L);
 
         return ReservationLineRoom.builder()
-            .room(FixturesOfHotel.roomBuilder())
-            .roomName("디럭스룸")
+            .roomId(1L)
+            .roomName(roomName)
             .period(DateTimePeriod.between(checkInDateTime, checkOutDateTime))
             .reservationOptionGroups(List.of(reservationBasicOptionGroupBuilder(), reservationOptionGroupBuilder()))
             .build();
+    }
+
+    public static ReservationLineRoom reservationLineRoomBuilder(LocalDateTime checkInDateTime) {
+        LocalDateTime checkOutDateTime = checkInDateTime.minusDays(1L);
+
+        return ReservationLineRoom.builder()
+                .roomId(1L)
+                .roomName("디럭스룸")
+                .period(DateTimePeriod.between(checkInDateTime, checkOutDateTime))
+                .reservationOptionGroups(List.of(reservationBasicOptionGroupBuilder(), reservationOptionGroupBuilder()))
+                .build();
     }
 
     public static ReservationOptionGroup reservationBasicOptionGroupBuilder() {

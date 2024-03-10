@@ -31,10 +31,7 @@ public class ReservationLineRoom {
     @Column(name = "RESERVATION_LINE_ROOM_ID")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "ROOM_ID")
-    private Room room;
-
+    private Long roomId;
     private String roomName;
 
     @Embedded
@@ -45,8 +42,8 @@ public class ReservationLineRoom {
     private List<ReservationOptionGroup> reservationOptionGroups = new ArrayList<>();
 
     @Builder
-    public ReservationLineRoom(Room room, String roomName, DateTimePeriod period, List<ReservationOptionGroup> reservationOptionGroups) {
-        this.room = room;
+    public ReservationLineRoom(Long roomId, String roomName, DateTimePeriod period, List<ReservationOptionGroup> reservationOptionGroups) {
+        this.roomId = roomId;
         this.roomName = roomName;
         this.period = period;
         this.reservationOptionGroups = reservationOptionGroups;
@@ -54,14 +51,6 @@ public class ReservationLineRoom {
 
     public Money calculateTotalAmountOfRoomReservation() {
         return Money.sum(reservationOptionGroups, ReservationOptionGroup::calculateTotalPrice);
-    }
-
-    public void validate() {
-        room.validate(roomName, convertToOptionGroups(), period);
-    }
-
-    private List<OptionGroup> convertToOptionGroups() {
-        return reservationOptionGroups.stream().map(ReservationOptionGroup::convertToOptionGroup).toList();
     }
 
 }

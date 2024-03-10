@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.example.ooptravel.api.service.reservation.request.ReservationOrder.ReservationRoomOrder;
 import com.example.ooptravel.domain.generic.time.DateTimePeriod;
+import com.example.ooptravel.domain.hotel.Hotel;
+import com.example.ooptravel.domain.reservation.ReservationValidator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +22,7 @@ import com.example.ooptravel.domain.reservation.ReservationOptionGroup;
 import com.example.ooptravel.hotel.FixturesOfHotel;
 import com.example.ooptravel.reservation.FixturesOfReservation;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +32,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @SpringBootTest
@@ -38,11 +42,18 @@ class ReservationTest {
     private HotelRepository hotelRepository;
 
     @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private ReservationValidator reservationValidator;
 
     @BeforeEach
     void setUp() {
         hotelRepository.save(FixturesOfHotel.hotelBuilder());
+        roomRepository.save(FixturesOfHotel.roomBuilder());
     }
 
     @DisplayName("예약 성공 확인")
@@ -59,15 +70,17 @@ class ReservationTest {
         assertThat(reservation.calculateTotalAmountOfReservation()).isEqualTo(Money.wons(150000L));
     }
 
+    @Transactional
     @DisplayName("호텔이 운영 중이지 않을 때 예약 시 예외 발생")
     @Test
     void reservation_validate_test() {
         // given
         Reservation reservation = FixturesOfReservation.reservationBuilder();
-        reservation.getHotel().close();
+        Hotel hotel = hotelRepository.findById(reservation.getHotelId()).orElseThrow(EntityNotFoundException::new);
+        hotel.close();
 
         // when, then
-        assertThatThrownBy(reservation::validate)
+        assertThatThrownBy(() -> reservationValidator.validate(reservation))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("숙박업소가 운영 중이지 않습니다.");
     }
@@ -77,10 +90,11 @@ class ReservationTest {
     void reservationGroup_validate_test() {
         // given
         LocalDateTime now = LocalDateTime.now();
+        ReservationLineRoom reservationLineRoom = FixturesOfReservation.reservationLineRoomBuilder("wrong");
         Room room = FixturesOfHotel.roomBuilder();
 
         // when, then
-        assertThatThrownBy(() -> room.validate("wrong_room_name", List.of(), DateTimePeriod.between(now, now)))
+        assertThatThrownBy(() -> reservationValidator.validateReservationLineRooms(reservationLineRoom, room))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("예약한 방의 이름과 호텔의 방 이름이 일치하지 않습니다.");
     }
@@ -99,15 +113,17 @@ class ReservationTest {
                 .build()
         );
 
+        Room room = FixturesOfHotel.roomBuilder();
+
         ReservationLineRoom reservationLineRoom = ReservationLineRoom.builder()
-            .room(FixturesOfHotel.roomBuilder())
+            .roomId(room.getId())
             .roomName("디럭스룸")
             .period(DateTimePeriod.between(checkInDateTime, checkOutDateTime))
             .reservationOptionGroups(reservationOptionGroups)
             .build();
 
         // when, then
-       assertThatThrownBy(reservationLineRoom::validate)
+       assertThatThrownBy(() -> reservationValidator.validateReservationLineRooms(reservationLineRoom, room))
            .isInstanceOf(IllegalArgumentException.class)
            .hasMessage("예약 옵션과 실제 제공되는 옵션에 차이가 존재합니다.");
     }
@@ -123,14 +139,10 @@ class ReservationTest {
         List<ReservationOptionGroup> reservationOptionGroups = List.of(
                 FixturesOfReservation.reservationBasicOptionGroupBuilder()
         );
-
         // when, then
-        assertThatThrownBy(() -> room.validate(
-                "디럭스룸",
-                reservationOptionGroups.stream().map(ReservationOptionGroup::convertToOptionGroup).toList(),
-                DateTimePeriod.between(checkInDateTime, checkOutDateTime)
-                )
-        ).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() ->
+                reservationValidator.validateReservationLineRooms(FixturesOfReservation.reservationLineRoomBuilder(checkInDateTime), room))
+        .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("예약한 방의 체크인/아웃 시간과 실제 체크인/아웃 시간이 일치하지 않습니다.");
     }
 

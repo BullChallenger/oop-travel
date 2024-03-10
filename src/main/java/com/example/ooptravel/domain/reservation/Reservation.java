@@ -5,7 +5,6 @@ import static com.example.ooptravel.domain.reservation.Reservation.ReservationSt
 import static com.example.ooptravel.domain.reservation.Reservation.ReservationStatus.CHECKOUT;
 
 import com.example.ooptravel.domain.generic.money.Money;
-import com.example.ooptravel.domain.hotel.Hotel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,7 +13,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,10 +38,7 @@ public class Reservation {
     private Long id;
 
     private Long userId;
-
-    @ManyToOne
-    @JoinColumn(name = "HOTEL_ID")
-    private Hotel hotel;
+    private Long hotelId;
 
     @OneToMany
     @JoinColumn(name = "RESERVATION_ID")
@@ -56,28 +51,13 @@ public class Reservation {
     private LocalDateTime createdAt;
 
     @Builder
-    public Reservation(Long userId, Hotel hotel, List<ReservationLineRoom> reservationLineRooms,
+    public Reservation(Long userId, Long hotelId, List<ReservationLineRoom> reservationLineRooms,
                        ReservationStatus reservationStatus
     ) {
         this.userId = userId;
-        this.hotel = hotel;
+        this.hotelId = hotelId;
         this.reservationLineRooms = reservationLineRooms;
         this.reservationStatus = reservationStatus;
-    }
-
-    public void validate() {
-        if (reservationLineRooms.isEmpty()) {
-            throw new IllegalArgumentException("방 예약 항목이 비었습니다.");
-        }
-
-        if (!hotel.isOpen()) {
-            throw new IllegalArgumentException("숙박업소가 운영 중이지 않습니다.");
-        }
-
-        for (ReservationLineRoom reservationLineRoom : reservationLineRooms) {
-            reservationLineRoom.validate();
-        }
-
     }
 
     public void accept() {
@@ -94,6 +74,10 @@ public class Reservation {
 
     public Money calculateTotalAmountOfReservation() {
         return Money.sum(reservationLineRooms, ReservationLineRoom::calculateTotalAmountOfRoomReservation);
+    }
+
+    public List<Long> getRoomIds() {
+        return reservationLineRooms.stream().map(ReservationLineRoom::getRoomId).toList();
     }
 
 }

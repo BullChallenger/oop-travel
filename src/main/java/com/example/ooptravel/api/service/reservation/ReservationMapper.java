@@ -26,11 +26,9 @@ public class ReservationMapper {
 	private final RoomRepository roomRepository;
 
 	public Reservation mapFrom(ReservationOrder order) {
-		Hotel hotel = hotelRepository.findById(order.getHotelId()).orElseThrow(EntityNotFoundException::new);
-
 		return Reservation.builder()
 			.userId(order.getUserId())
-			.hotel(hotel)
+			.hotelId(order.getHotelId())
 			.reservationLineRooms(convertReservationLineRoomsBy(order))
 			.build();
 	}
@@ -39,7 +37,7 @@ public class ReservationMapper {
 		Room room = roomRepository.findById(roomOrder.getRoomId()).orElseThrow(EntityNotFoundException::new);
 
 		return ReservationLineRoom.builder()
-			.room(room)
+			.roomId(roomOrder.getRoomId())
 			.roomName(room.getName())
 			.period(DateTimePeriod.between(roomOrder.getCheckInDateTime(), roomOrder.getCheckOutDateTime()))
 			.reservationOptionGroups(roomOrder.getOptionGroups().stream().map(this::ofReservationLineRoomBy).toList())

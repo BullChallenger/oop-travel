@@ -17,7 +17,6 @@ public class FixturesOfHotel {
 	public static Hotel hotelBuilder() {
 		return Hotel.builder()
 			.address(addressBuilder())
-			.rooms(List.of(roomBuilder()))
 			.name("스탠포드 호텔")
 			.description("스탠포드 호텔은 서울 상암에 위치한 호텔입니다.")
 			.open(true)
