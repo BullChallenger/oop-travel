@@ -37,10 +37,10 @@ public class HotelOptionSpecification {
         this.price = price;
     }
 
-    public boolean isSatisfiedBy(ReservationOption reservationOptionSpec) {
+    public boolean isSatisfiedBy(OptionSpecification optionSpec) {
         return isAvailable &&
-            reservationOptionSpec.getName().equals(name) &&
-            reservationOptionSpec.getPrice().isEqualTo(price);
+            optionSpec.getName().equals(name) &&
+            optionSpec.getPrice().isEqualTo(price);
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.ooptravel.domain.reservation;
 
 import com.example.ooptravel.domain.generic.money.Money;
 import com.example.ooptravel.domain.generic.time.DateTimePeriod;
+import com.example.ooptravel.domain.hotel.OptionGroup;
 import com.example.ooptravel.domain.hotel.Room;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -56,7 +57,11 @@ public class ReservationLineRoom {
     }
 
     public void validate() {
-        room.validate(roomName, reservationOptionGroups, period);
+        room.validate(roomName, convertToOptionGroups(), period);
+    }
+
+    private List<OptionGroup> convertToOptionGroups() {
+        return reservationOptionGroups.stream().map(ReservationOptionGroup::convertToOptionGroup).toList();
     }
 
 }

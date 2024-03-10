@@ -57,11 +57,11 @@ public class HotelOptionGroup {
         this(name, exclusive, basic, Arrays.asList(options));
     }
 
-    public boolean isSatisfiedBy(ReservationOptionGroup optionGroup) {
-        return isSatisfied(optionGroup.getName(), satisfied(optionGroup.getReservationOptionSpecs()));
+    public boolean isSatisfiedBy(OptionGroup optionGroup) {
+        return isSatisfied(optionGroup.getGroupName(), satisfied(optionGroup.getOptionSpecs()));
     }
 
-    private boolean isSatisfied(String optionGroupName, List<ReservationOption> optionSpecs) {
+    private boolean isSatisfied(String optionGroupName, List<OptionSpecification> optionSpecs) {
         if (!name.equals(optionGroupName)) {
             return false;
         }
@@ -77,7 +77,7 @@ public class HotelOptionGroup {
         return true;
     }
 
-    private List<ReservationOption> satisfied(List<ReservationOption> reservationOptionSpecs) {
+    private List<OptionSpecification> satisfied(List<OptionSpecification> reservationOptionSpecs) {
         return optionSpecs.stream()
             .flatMap(optionSpec -> reservationOptionSpecs.stream().filter(optionSpec::isSatisfiedBy))
             .toList();
